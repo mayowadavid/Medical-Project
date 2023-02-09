@@ -1,0 +1,16 @@
+{
+	"appId": "com.myhealthcarecollective.com",
+	"appName": "MyHC Patient Portal",
+	"webDir": "out",
+	"bundledWebRuntime": false,
+	"plugins": {
+		"SplashScreen": {
+			"launchAutoHide": false,
+			"backgroundColor": "#FFFFFF",
+			"androidSplashResourceName": "splash",
+			"androidScaleType": "CENTER_CROP",
+			"splashFullScreen": true,
+			"splashImmersive": true
+		}
+	}
+}

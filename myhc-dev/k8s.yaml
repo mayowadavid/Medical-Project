@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myhc-patient-portal-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: myhc-patient-portal-deployment
+  template:
+    metadata:
+      labels:
+        app: myhc-patient-portal-deployment
+    spec:
+      containers:
+        - name: myhc-patient-portal-deployment
+          imagePullPolicy: Always
+          image: asia.gcr.io/mazecare-cicd/myhc-patient-portal
+          env:
+            - name: ENVIRONMENT
+              value: dev
+            - name: NEXT_PUBLIC_GQL_ENDPOINT
+              value: http://130.211.24.239/graphql
+            - name: NEXT_PUBLIC_GUEST_USERNAME
+              value: patient_portal_guest
+            - name: NEXT_PUBLIC_GUEST_PASSWORD
+              value: myhcpass
+            - name: NEXT_PUBLIC_CLIENT_ID
+              value: default
+            - name: NEXT_PUBLIC_CLIENT_SECRET
+              value: 901564A5-E7FE-42CB-B10D-61EF6A8F3654
+            - name: NEXT_PUBLIC_TENANT_ID
+              value: MYHC
+            - name: NEXT_PUBLIC_PATIENT_ARCHETYPE_ID
+              value: 835cea41-7b87-4f1b-8e1b-f54a0449ebee
+            - name: NEXT_PUBLIC_PATIENT_ROLE_ID
+              value: 2be66e6a-7d9a-4612-958f-9260d168bba2
+            - name: GATEWAY_URL
+              value: http://gateway:80
+            - name: AUTH_URL
+              value: http://auth:80
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: mazecare-registry
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myhc-patient-portal-service
+spec:
+  selector:
+    app: myhc-patient-portal-deployment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

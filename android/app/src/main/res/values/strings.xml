@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MyHC Patient Portal</string>
+    <string name="title_activity_main">MyHC Patient Portal</string>
+    <string name="package_name">com.myhealthcarecollective.com</string>
+    <string name="custom_url_scheme">com.myhealthcarecollective.com</string>
+</resources>

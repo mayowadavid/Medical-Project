@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myhc-patient-portal-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: myhc-patient-portal-deployment
+  template:
+    metadata:
+      labels:
+        app: myhc-patient-portal-deployment
+    spec:
+      containers:
+        - name: myhc-patient-portal-deployment
+          imagePullPolicy: Always
+          image: asia.gcr.io/mazecare-cicd/myhc-patient-portal
+          env:
+            - name: ENVIRONMENT
+              value: dev
+            - name: GATEWAY_URL
+              value: http://gateway:80
+            - name: AUTH_URL
+              value: http://auth:80
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: mazecare-registry
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myhc-patient-portal-service
+spec:
+  selector:
+    app: myhc-patient-portal-deployment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
